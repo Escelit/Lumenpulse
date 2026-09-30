@@ -73,7 +73,7 @@ Rules enforced by CI:
 
 This is the contract metadata contract used by the backend: `contracts` is a map keyed by contract name and holds only deployed contracts, while `network`, `rpc_url`, `admin_address`, `crate_coverage` and `not_deployed` are persisted alongside it as manifest metadata. The service stores the sections without rewriting their schema.
 
-For end-to-end deployment workflows, topological contract ordering, smoke verification, and emergency halt procedures, consult the [Contract Deployment & Rollback Playbook](../../document/CONTRACT_DEPLOYMENT_ROLLBACK_PLAYBOOK.md).
+For end-to-end deployment workflows, topological contract ordering, smoke verification, and emergency halt procedures, consult the [Contract Deployment & Rollback Playbook](../../docs/CONTRACT_DEPLOYMENT_ROLLBACK_PLAYBOOK.md).
 
 ### Retired contracts
 
