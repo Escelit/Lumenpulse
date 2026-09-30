@@ -3,9 +3,9 @@
   "rpc_url": "https://soroban-testnet.stellar.org:443",
   "admin_address": "GDPBZZDKZJTPFERPP65ATQWH2T6OIXQESPKXSTO6YY33TA2HTUTAPJI6",
   "crate_coverage": {
-    "total_crates": 23,
+    "total_crates": 24,
     "deployed": 7,
-    "not_deployed": 16
+    "not_deployed": 17
   },
   "contracts": {
     "contributor_registry": {
@@ -51,6 +51,10 @@
     "cross_contract_view": {
       "crate_path": "contracts/cross-contract-view",
       "reason": "Not deployed on testnet: this crate is a cross-contract read helper library compiled into the contracts that use it and has no standalone deployment surface."
+    },
+    "error_registry": {
+      "crate_path": "contracts/error-registry",
+      "reason": "Not deployed on testnet: this is a dependency-free library crate that defines the shared error code allocation scheme consumed by other contracts at compile time; it has no standalone deployment surface."
     },
     "event_versioning": {
       "crate_path": "contracts/event-versioning",
