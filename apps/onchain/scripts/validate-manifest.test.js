@@ -86,9 +86,9 @@ describe('validate-manifest', () => {
 
     assert.deepEqual(result.errors, []);
     assert.equal(result.ok, true);
-    assert.equal(result.totalCrates, 23);
+    assert.equal(result.totalCrates, 24);
     assert.equal(result.deployed.length, 7);
-    assert.equal(result.notDeployed.length, 16);
+    assert.equal(result.notDeployed.length, 17);
     assert.equal(
       result.deployed.includes('pricing_adapter') &&
         result.notDeployed.includes('version_interface'),
