@@ -97,7 +97,10 @@ jobs:
 
     - name: Remove base worktree
       if: always() && github.event_name == 'pull_request'
-      run: git worktree remove --force "$RUNNER_TEMP/lumenpulse-base"
+      run: |
+        if git worktree list | grep -q lumenpulse-base; then
+          git worktree remove --force "$RUNNER_TEMP/lumenpulse-base"
+        fi
 
     - name: Run tests
       if: env.SKIP_TESTS != 'true'
