@@ -1060,24 +1060,6 @@
               }
             }
           },
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RoundDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Malformed request or validation failure",
             "content": {
@@ -2878,7 +2860,7 @@
         "parameters": [
           {
             "name": "page",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
@@ -2886,7 +2868,7 @@
           },
           {
             "name": "limit",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
@@ -6949,7 +6931,7 @@
         },
         "responses": {
           "200": {
-            "description": "Login successful",
+            "description": "2FA required\n\nLogin successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -8107,7 +8089,7 @@
             "in": "query",
             "description": "Stellar public key (starts with G)",
             "schema": {
-              "pattern": "/^G[A-Z0-9]{55}$/",
+              "pattern": "^G[A-Z0-9]{55}$",
               "example": "GCZJM35NKGVK47BB4SPBDV25477PZYIYPVVG453LPYFNXLS3FGHDXOCM",
               "type": "string"
             }
@@ -10430,7 +10412,7 @@
         "parameters": [
           {
             "name": "format",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
@@ -10535,7 +10517,7 @@
         "parameters": [
           {
             "name": "format",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
@@ -12401,24 +12383,6 @@
               }
             }
           },
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PortfolioAnomalyResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Malformed request or validation failure",
             "content": {
@@ -12706,7 +12670,7 @@
           },
           {
             "name": "limit",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "type": "number"
@@ -13784,7 +13748,7 @@
         ],
         "summary": "Create a new matching round on-chain",
         "tags": [
-          "Admin — Matching Pool"
+          "Admin \u2014 Matching Pool"
         ]
       }
     },
@@ -13992,7 +13956,7 @@
         ],
         "summary": "Approve a project for a matching round",
         "tags": [
-          "Admin — Matching Pool"
+          "Admin \u2014 Matching Pool"
         ]
       }
     },
@@ -14755,7 +14719,7 @@
           {
             "name": "X-Webhook-Signature",
             "in": "header",
-            "description": "HMAC-SHA256 signature — format: sha256=<hex>",
+            "description": "HMAC-SHA256 signature \u2014 format: sha256=<hex>",
             "required": true,
             "schema": {
               "type": "string"
@@ -20477,7 +20441,7 @@
         "parameters": [
           {
             "name": "subjectId",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
@@ -20485,7 +20449,7 @@
           },
           {
             "name": "actorId",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
@@ -20493,7 +20457,7 @@
           },
           {
             "name": "limit",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
@@ -20980,7 +20944,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "The Health Check is successful",
+            "description": "Returns a healthy or degraded response when the API is available.\n\nThe Health Check is successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -21098,7 +21062,7 @@
             }
           },
           "503": {
-            "description": "The Health Check is not successful",
+            "description": "Returns when a critical dependency is unavailable.\n\nThe Health Check is not successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -21128,7 +21092,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "The Health Check is successful",
+            "description": "Returns a healthy or degraded response when the API is available.\n\nThe Health Check is successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -21246,7 +21210,7 @@
             }
           },
           "503": {
-            "description": "The Health Check is not successful",
+            "description": "Returns when a critical dependency is unavailable.\n\nThe Health Check is not successful",
             "content": {
               "application/json": {
                 "schema": {
@@ -22174,7 +22138,7 @@
     },
     "/v1/health/smoke": {
       "get": {
-        "description": "Single endpoint that confirms the backend and its testnet dependencies are ready to serve. Verifies required environment variables are present, core dependencies (database, Redis, Horizon) respond, and every configured Soroban contract ID is reachable. Returns a machine-readable report: `status` is \"pass\", \"warn\" or \"fail\", `ready` is false only when something failed, and every check carries a stable `id` so CI can assert on individual results. Safe to expose publicly — environment variables are reported by name and presence only, contract IDs are redacted, and dependency errors are replaced with fixed messages so no connection detail can leak.",
+        "description": "Single endpoint that confirms the backend and its testnet dependencies are ready to serve. Verifies required environment variables are present, core dependencies (database, Redis, Horizon) respond, and every configured Soroban contract ID is reachable. Returns a machine-readable report: `status` is \"pass\", \"warn\" or \"fail\", `ready` is false only when something failed, and every check carries a stable `id` so CI can assert on individual results. Safe to expose publicly \u2014 environment variables are reported by name and presence only, contract IDs are redacted, and dependency errors are replaced with fixed messages so no connection detail can leak.",
         "operationId": "HealthController_getDeploymentSmoke[0]",
         "parameters": [],
         "responses": {
@@ -22226,7 +22190,7 @@
             }
           },
           "503": {
-            "description": "At least one check failed (status \"fail\") — the deployment is not ready.",
+            "description": "At least one check failed (status \"fail\") \u2014 the deployment is not ready.",
             "content": {
               "application/json": {
                 "schema": {
@@ -22252,7 +22216,7 @@
     },
     "/health/smoke": {
       "get": {
-        "description": "Single endpoint that confirms the backend and its testnet dependencies are ready to serve. Verifies required environment variables are present, core dependencies (database, Redis, Horizon) respond, and every configured Soroban contract ID is reachable. Returns a machine-readable report: `status` is \"pass\", \"warn\" or \"fail\", `ready` is false only when something failed, and every check carries a stable `id` so CI can assert on individual results. Safe to expose publicly — environment variables are reported by name and presence only, contract IDs are redacted, and dependency errors are replaced with fixed messages so no connection detail can leak.",
+        "description": "Single endpoint that confirms the backend and its testnet dependencies are ready to serve. Verifies required environment variables are present, core dependencies (database, Redis, Horizon) respond, and every configured Soroban contract ID is reachable. Returns a machine-readable report: `status` is \"pass\", \"warn\" or \"fail\", `ready` is false only when something failed, and every check carries a stable `id` so CI can assert on individual results. Safe to expose publicly \u2014 environment variables are reported by name and presence only, contract IDs are redacted, and dependency errors are replaced with fixed messages so no connection detail can leak.",
         "operationId": "HealthController_getDeploymentSmoke[1]",
         "parameters": [],
         "responses": {
@@ -22304,7 +22268,7 @@
             }
           },
           "503": {
-            "description": "At least one check failed (status \"fail\") — the deployment is not ready.",
+            "description": "At least one check failed (status \"fail\") \u2014 the deployment is not ready.",
             "content": {
               "application/json": {
                 "schema": {
@@ -22323,176 +22287,6 @@
           }
         },
         "summary": "Deployment smoke check for CI and Vercel",
-        "tags": [
-          "health"
-        ]
-      }
-    },
-    "/v1/health/models": {
-      "get": {
-        "description": "Reports the trustworthiness of every registered model (live version, drift state, calibration age and data freshness). Each model is classified trustworthy | degraded | unavailable so consumers can decide whether to surface a prediction. Transitions into a degraded state are alerted through the backend notification path by the data-processing service (#1647).",
-        "operationId": "HealthController_getModelHealth[0]",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Per-model SLO health report.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ModelHealthResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit exceeded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Returns when the data-processing service is unreachable.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Returns per-model SLO health from the data-processing service",
-        "tags": [
-          "health"
-        ]
-      }
-    },
-    "/health/models": {
-      "get": {
-        "description": "Reports the trustworthiness of every registered model (live version, drift state, calibration age and data freshness). Each model is classified trustworthy | degraded | unavailable so consumers can decide whether to surface a prediction. Transitions into a degraded state are alerted through the backend notification path by the data-processing service (#1647).",
-        "operationId": "HealthController_getModelHealth[1]",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Per-model SLO health report.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ModelHealthResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit exceeded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Returns when the data-processing service is unreachable.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Returns per-model SLO health from the data-processing service",
         "tags": [
           "health"
         ]
@@ -23308,24 +23102,6 @@
               }
             }
           },
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VoteResultDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Invalid project or voter key",
             "content": {
@@ -23452,24 +23228,6 @@
         "responses": {
           "200": {
             "description": "Verification status overridden successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProjectVerificationDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "201": {
-            "description": "",
             "content": {
               "application/json": {
                 "schema": {
@@ -27712,7 +27470,7 @@
             }
           },
           "403": {
-            "description": "Forbidden – admin only",
+            "description": "Forbidden \u2013 admin only",
             "content": {
               "application/json": {
                 "schema": {
@@ -28620,7 +28378,7 @@
             "name": "pageSize",
             "required": false,
             "in": "query",
-            "description": "Items per page (1–100, default 20)",
+            "description": "Items per page (1\u2013100, default 20)",
             "schema": {
               "example": 20,
               "type": "number"
@@ -29167,7 +28925,7 @@
             "name": "pageSize",
             "required": false,
             "in": "query",
-            "description": "Items per page (1–100, default 20)",
+            "description": "Items per page (1\u2013100, default 20)",
             "schema": {
               "example": 20,
               "type": "number"
@@ -29962,24 +29720,6 @@
               }
             }
           },
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FeatureFlag"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
           "400": {
             "description": "Malformed request or validation failure",
             "content": {
@@ -30151,7 +29891,7 @@
           },
           {
             "name": "principalId",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
@@ -31303,24 +31043,6 @@
         "responses": {
           "200": {
             "description": "Contribution processed successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ContributionResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "201": {
-            "description": "",
             "content": {
               "application/json": {
                 "schema": {
@@ -33567,7 +33289,8 @@
             "description": "Secret token for authenticating ingest requests (configured via SOROBAN_INGEST_SECRET environment variable)",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "your-secret-ingest-token-here"
             }
           },
           {
@@ -35017,7 +34740,7 @@
     },
     "/v1/contributor-registry/register-with-sig": {
       "post": {
-        "description": "The contributor signs a SorobanAuthorizationEntry off-chain (no XLM required). The server (relayer) builds the transaction, attaches the signed entry, and submits it — paying the network fees. Obtain the current nonce first via GET /contributor-registry/nonce/:address.",
+        "description": "The contributor signs a SorobanAuthorizationEntry off-chain (no XLM required). The server (relayer) builds the transaction, attaches the signed entry, and submits it \u2014 paying the network fees. Obtain the current nonce first via GET /contributor-registry/nonce/:address.",
         "operationId": "ContributorRegistryController_registerWithSig",
         "parameters": [
           {
@@ -35542,7 +35265,7 @@
     },
     "/v1/contributor-registry/nonce/{address}": {
       "get": {
-        "description": "Returns the current per-address nonce required when building the SorobanAuthorizationEntry for register_contributor_with_sig. Cached for 5 seconds only — always fetch immediately before signing.",
+        "description": "Returns the current per-address nonce required when building the SorobanAuthorizationEntry for register_contributor_with_sig. Cached for 5 seconds only \u2014 always fetch immediately before signing.",
         "operationId": "ContributorRegistryController_getNonce",
         "parameters": [
           {
@@ -38845,7 +38568,7 @@
             }
           },
           "403": {
-            "description": "Forbidden – reviewer or admin role required",
+            "description": "Forbidden \u2013 reviewer or admin role required",
             "content": {
               "application/json": {
                 "schema": {
@@ -38979,7 +38702,7 @@
     },
     "/v1/demo-bootstrap/seed": {
       "post": {
-        "description": "Seeds demo-friendly testnet scenarios for contributor review and MVP walkthroughs. Only available when STELLAR_NETWORK=testnet and BOOTSTRAP_DEMO_DATA_ENABLED=true. Safe to repeat — pass resetBeforeSeed=true (default) to clear previous state first.",
+        "description": "Seeds demo-friendly testnet scenarios for contributor review and MVP walkthroughs. Only available when STELLAR_NETWORK=testnet and BOOTSTRAP_DEMO_DATA_ENABLED=true. Safe to repeat \u2014 pass resetBeforeSeed=true (default) to clear previous state first.",
         "operationId": "DemoBootstrapController_seed",
         "parameters": [
           {
@@ -39041,7 +38764,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized — admin JWT required",
+            "description": "Unauthorized \u2014 admin JWT required",
             "content": {
               "application/json": {
                 "schema": {
@@ -39059,7 +38782,7 @@
             }
           },
           "403": {
-            "description": "Forbidden — admin role required",
+            "description": "Forbidden \u2014 admin role required",
             "content": {
               "application/json": {
                 "schema": {
@@ -39214,7 +38937,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized — admin JWT required",
+            "description": "Unauthorized \u2014 admin JWT required",
             "content": {
               "application/json": {
                 "schema": {
@@ -39232,7 +38955,7 @@
             }
           },
           "403": {
-            "description": "Forbidden — admin role required",
+            "description": "Forbidden \u2014 admin role required",
             "content": {
               "application/json": {
                 "schema": {
@@ -39353,7 +39076,7 @@
     },
     "/v1/demo-bootstrap/runs": {
       "get": {
-        "description": "Returns bootstrap runs newest-first with the identifier to pass to the teardown endpoint. Covers both demo seeds and Friendbot-funded testnet accounts. Resource identifiers are not included — fetch a teardown dry run to see exactly what a given run created.",
+        "description": "Returns bootstrap runs newest-first with the identifier to pass to the teardown endpoint. Covers both demo seeds and Friendbot-funded testnet accounts. Resource identifiers are not included \u2014 fetch a teardown dry run to see exactly what a given run created.",
         "operationId": "DemoBootstrapController_listRuns",
         "parameters": [
           {
@@ -39433,7 +39156,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized — admin JWT required",
+            "description": "Unauthorized \u2014 admin JWT required",
             "content": {
               "application/json": {
                 "schema": {
@@ -39451,7 +39174,7 @@
             }
           },
           "403": {
-            "description": "Forbidden — admin role required",
+            "description": "Forbidden \u2014 admin role required",
             "content": {
               "application/json": {
                 "schema": {
@@ -39518,7 +39241,7 @@
     },
     "/v1/demo-bootstrap/runs/{runId}/teardown": {
       "post": {
-        "description": "Removes the data created by a single bootstrap run, identified by its run id. Pass { \"dryRun\": true } to list what would be removed without changing anything. Refused with 403 unless the environment is explicitly marked as testnet (STELLAR_NETWORK=testnet) or development (NODE_ENV=development|test); never permitted in production. Safe to call repeatedly — a run that is already torn down reports so.",
+        "description": "Removes the data created by a single bootstrap run, identified by its run id. Pass { \"dryRun\": true } to list what would be removed without changing anything. Refused with 403 unless the environment is explicitly marked as testnet (STELLAR_NETWORK=testnet) or development (NODE_ENV=development|test); never permitted in production. Safe to call repeatedly \u2014 a run that is already torn down reports so.",
         "operationId": "DemoBootstrapController_teardownRun",
         "parameters": [
           {
@@ -39589,7 +39312,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized — admin JWT required",
+            "description": "Unauthorized \u2014 admin JWT required",
             "content": {
               "application/json": {
                 "schema": {
@@ -39607,7 +39330,7 @@
             }
           },
           "403": {
-            "description": "Forbidden — admin role required, or the environment is not marked as testnet or development",
+            "description": "Forbidden \u2014 admin role required, or the environment is not marked as testnet or development",
             "content": {
               "application/json": {
                 "schema": {
@@ -39905,24 +39628,6 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RebuildTriggerResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
           "202": {
             "description": "Rebuild job started",
             "content": {
@@ -40239,7 +39944,7 @@
         "parameters": [
           {
             "name": "dataset",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
@@ -40247,7 +39952,7 @@
           },
           {
             "name": "status",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
@@ -40255,7 +39960,7 @@
           },
           {
             "name": "limit",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
@@ -40585,7 +40290,7 @@
         "parameters": [
           {
             "name": "olderThanDays",
-            "required": true,
+            "required": false,
             "in": "query",
             "schema": {
               "type": "string"
@@ -44370,6 +44075,176 @@
           "service-api-keys"
         ]
       }
+    },
+    "/v1/health/models": {
+      "get": {
+        "description": "Reports the trustworthiness of every registered model (live version, drift state, calibration age and data freshness). Each model is classified trustworthy | degraded | unavailable so consumers can decide whether to surface a prediction. Transitions into a degraded state are alerted through the backend notification path by the data-processing service (#1647).",
+        "operationId": "HealthController_getModelHealth[0]",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Per-model SLO health report.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelHealthResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Returns when the data-processing service is unreachable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Returns per-model SLO health from the data-processing service",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/health/models": {
+      "get": {
+        "description": "Reports the trustworthiness of every registered model (live version, drift state, calibration age and data freshness). Each model is classified trustworthy | degraded | unavailable so consumers can decide whether to surface a prediction. Transitions into a degraded state are alerted through the backend notification path by the data-processing service (#1647).",
+        "operationId": "HealthController_getModelHealth[1]",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Per-model SLO health report.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelHealthResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Returns when the data-processing service is unreachable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Returns per-model SLO health from the data-processing service",
+        "tags": [
+          "health"
+        ]
+      }
     }
   },
   "info": {
@@ -45399,6 +45274,7 @@
           },
           "metadata": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Additional metadata about the decision",
             "example": {
               "priority": "high",
@@ -45483,9 +45359,9 @@
           },
           "details": {
             "type": "object",
+            "additionalProperties": true,
             "nullable": true,
-            "description": "Type-specific fields (request metadata, tx hash, ...)",
-            "additionalProperties": true
+            "description": "Type-specific fields (request metadata, tx hash, ...)"
           },
           "createdAt": {
             "type": "string",
@@ -45663,7 +45539,7 @@
         "properties": {
           "publicKey": {
             "type": "string",
-            "pattern": "/^G[A-Z0-9]{55}$/",
+            "pattern": "^G[A-Z0-9]{55}$",
             "description": "Stellar public key (starts with G)",
             "example": "GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHF"
           },
@@ -45852,7 +45728,7 @@
         "properties": {
           "publicKey": {
             "type": "string",
-            "pattern": "/^G[A-Z0-9]{55}$/",
+            "pattern": "^G[A-Z0-9]{55}$",
             "description": "Stellar public key",
             "example": "GCZJM35NKGVK47BB4SPBDV25477PZYIYPVVG453LPYFNXLS3FGHDXOCM"
           },
@@ -45969,7 +45845,7 @@
         "properties": {
           "token": {
             "type": "string",
-            "pattern": "/^\\d{6}$/",
+            "pattern": "^\\d{6}$",
             "description": "TOTP code from authenticator app",
             "example": "123456"
           }
@@ -45993,7 +45869,7 @@
           },
           "token": {
             "type": "string",
-            "pattern": "/^\\d{6}$/",
+            "pattern": "^\\d{6}$",
             "description": "TOTP code from authenticator app",
             "example": "123456"
           }
@@ -46009,7 +45885,7 @@
         "properties": {
           "token": {
             "type": "string",
-            "pattern": "/^\\d{6}$/",
+            "pattern": "^\\d{6}$",
             "description": "TOTP code to disable 2FA",
             "example": "123456"
           }
@@ -46095,11 +45971,11 @@
             "type": "string"
           },
           "action": {
-            "type": "string",
             "enum": [
               "create",
               "update"
-            ]
+            ],
+            "type": "string"
           },
           "previousVersion": {
             "type": "number"
@@ -46140,6 +46016,7 @@
         "properties": {
           "variables": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Variable values for preview. When omitted, the template sampleVariables are used.",
             "example": {
               "symbol": "XLM",
@@ -46205,6 +46082,9 @@
           },
           "sampleVariables": {
             "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
             "description": "Default sample data used by the preview endpoint"
           }
         }
@@ -46432,7 +46312,14 @@
             "example": "9b3b4a07-5b35-4f8c-9f26-8f3ac77e5b41"
           },
           "status": {
-            "type": "object",
+            "enum": [
+              "failed",
+              "running",
+              "completed",
+              "queued",
+              "completed_with_errors"
+            ],
+            "type": "string",
             "description": "Current status of the batch job",
             "example": "queued"
           },
@@ -46476,7 +46363,14 @@
             "example": "9b3b4a07-5b35-4f8c-9f26-8f3ac77e5b41"
           },
           "status": {
-            "type": "object",
+            "enum": [
+              "failed",
+              "running",
+              "completed",
+              "queued",
+              "completed_with_errors"
+            ],
+            "type": "string",
             "description": "Current status of the snapshot batch job",
             "example": "running"
           },
@@ -46501,7 +46395,12 @@
             "example": 48
           },
           "triggeredBy": {
-            "type": "object",
+            "enum": [
+              "unknown",
+              "manual",
+              "cron"
+            ],
+            "type": "string",
             "description": "Trigger source",
             "example": "manual"
           },
@@ -46541,13 +46440,13 @@
         "type": "object",
         "properties": {
           "window": {
-            "type": "string",
-            "description": "The time window identifier",
             "enum": [
               "24h",
               "7d",
               "30d"
             ],
+            "type": "string",
+            "description": "The time window identifier",
             "example": "24h"
           },
           "hasData": {
@@ -47378,12 +47277,12 @@
         "type": "object",
         "properties": {
           "network": {
-            "type": "string",
-            "description": "Stellar network name - indicates whether this is testnet or mainnet configuration",
             "enum": [
               "testnet",
               "mainnet"
             ],
+            "type": "string",
+            "description": "Stellar network name - indicates whether this is testnet or mainnet configuration",
             "example": "testnet"
           },
           "horizonUrl": {
@@ -47448,7 +47347,7 @@
             "type": "number",
             "minimum": 0,
             "maximum": 1,
-            "description": "Normalised severity score (0–1)",
+            "description": "Normalised severity score (0\u20131)",
             "example": 0.85
           },
           "current_value": {
@@ -47665,6 +47564,7 @@
           },
           "metadata": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Optional metadata key-value pairs",
             "example": {
               "environment": "production"
@@ -47740,6 +47640,7 @@
           },
           "metadata": {
             "type": "object",
+            "additionalProperties": true,
             "nullable": true
           },
           "createdAt": {
@@ -47803,6 +47704,7 @@
           },
           "metadata": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Optional metadata key-value pairs"
           }
         }
@@ -47891,6 +47793,7 @@
           },
           "payload": {
             "type": "object",
+            "additionalProperties": true,
             "example": {
               "roundId": 1,
               "totalPool": "1000000"
@@ -47925,6 +47828,9 @@
           },
           "requestHeaders": {
             "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
             "nullable": true,
             "example": {
               "X-Webhook-Signature": "sha256=..."
@@ -48011,6 +47917,7 @@
           },
           "payload": {
             "type": "object",
+            "additionalProperties": true,
             "example": {
               "milestoneId": "m-1"
             }
@@ -48187,7 +48094,6 @@
           },
           "eventPreferences": {
             "type": "object",
-            "description": "Event category preferences",
             "additionalProperties": {
               "type": "object",
               "properties": {
@@ -48207,7 +48113,8 @@
                   }
                 }
               }
-            }
+            },
+            "description": "Event category preferences"
           },
           "quietHours": {
             "description": "Quiet hours configuration",
@@ -48269,6 +48176,7 @@
           },
           "quietHours": {
             "nullable": true,
+            "type": "object",
             "allOf": [
               {
                 "$ref": "#/components/schemas/QuietHoursConfigDto"
@@ -48328,6 +48236,7 @@
           },
           "eventPreferences": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Event category preferences"
           },
           "quietHours": {
@@ -48416,6 +48325,7 @@
           },
           "metadata": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Metadata context for the event (e.g., projectId, symbol, poolId)"
           }
         },
@@ -48474,8 +48384,8 @@
           },
           "suppressionBreakdown": {
             "type": "object",
-            "description": "Breakdown of suppression reasons",
-            "additionalProperties": true
+            "additionalProperties": true,
+            "description": "Breakdown of suppression reasons"
           },
           "notificationIds": {
             "description": "IDs of created notifications",
@@ -48515,8 +48425,8 @@
           },
           "metadata": {
             "type": "object",
-            "nullable": true,
-            "additionalProperties": true
+            "additionalProperties": true,
+            "nullable": true
           },
           "createdAt": {
             "format": "date-time",
@@ -48603,6 +48513,7 @@
           },
           "metadata": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Metadata context for the alert (drift findings, run id, ...)"
           },
           "targetUserIds": {
@@ -48699,6 +48610,7 @@
           },
           "payload": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Serialised event payload"
           },
           "correlationId": {
@@ -48789,103 +48701,6 @@
         "required": [
           "accessToken",
           "session"
-        ]
-      },
-      "ModelHealthSignalDto": {
-        "type": "object",
-        "properties": {
-          "state": {
-            "type": "string",
-            "enum": [
-              "trustworthy",
-              "degraded",
-              "unavailable"
-            ],
-            "example": "trustworthy"
-          },
-          "detail": {
-            "type": "string",
-            "description": "Human-readable explanation of the signal state"
-          },
-          "value": {
-            "type": "object",
-            "description": "Structured context for the signal (feature names, age in seconds, ...)"
-          }
-        },
-        "required": [
-          "state",
-          "detail"
-        ]
-      },
-      "ModelHealthSnapshotDto": {
-        "type": "object",
-        "properties": {
-          "model_type": {
-            "type": "string",
-            "description": "Model type identifier, e.g. sentiment or price_predictor"
-          },
-          "live_version": {
-            "type": "string",
-            "nullable": true,
-            "description": "Currently promoted model version from the registry, or null when none is live",
-            "example": "v1.1"
-          },
-          "drift": {
-            "$ref": "#/components/schemas/ModelHealthSignalDto"
-          },
-          "calibration_age": {
-            "$ref": "#/components/schemas/ModelHealthSignalDto"
-          },
-          "data_freshness": {
-            "$ref": "#/components/schemas/ModelHealthSignalDto"
-          },
-          "overall": {
-            "type": "string",
-            "enum": [
-              "trustworthy",
-              "degraded",
-              "unavailable"
-            ],
-            "example": "trustworthy"
-          },
-          "checked_at": {
-            "type": "string",
-            "description": "ISO-8601 UTC time this model was assessed"
-          },
-          "transitioned_to_degraded": {
-            "type": "boolean",
-            "description": "True when this assessment moved the model into a non-trustworthy state since the last assessment",
-            "example": false
-          }
-        },
-        "required": [
-          "model_type",
-          "drift",
-          "calibration_age",
-          "data_freshness",
-          "overall",
-          "checked_at",
-          "transitioned_to_degraded"
-        ]
-      },
-      "ModelHealthResponseDto": {
-        "type": "object",
-        "properties": {
-          "checked_at": {
-            "type": "string",
-            "description": "ISO-8601 UTC time this report was generated"
-          },
-          "models": {
-            "description": "Per-model SLO health snapshots keyed by model type",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ModelHealthSnapshotDto"
-            }
-          }
-        },
-        "required": [
-          "checked_at",
-          "models"
         ]
       },
       "RegistryConfigDto": {
@@ -48990,7 +48805,7 @@
           },
           "quorumProgress": {
             "type": "number",
-            "description": "Percentage of quorum reached (0–100)",
+            "description": "Percentage of quorum reached (0\u2013100)",
             "example": 80
           }
         },
@@ -49398,6 +49213,7 @@
           },
           "reviewer": {
             "nullable": true,
+            "type": "object",
             "allOf": [
               {
                 "$ref": "#/components/schemas/User"
@@ -50199,6 +50015,7 @@
           "article": {
             "nullable": true,
             "description": "Article details",
+            "type": "object",
             "allOf": [
               {
                 "$ref": "#/components/schemas/NewsArticleDto"
@@ -50259,7 +50076,7 @@
           },
           "quorumProgress": {
             "type": "number",
-            "description": "Percentage of quorum reached (0–100)",
+            "description": "Percentage of quorum reached (0\u2013100)",
             "example": 0
           },
           "score": {
@@ -50306,7 +50123,7 @@
           },
           "totalPages": {
             "type": "number",
-            "description": "Total number of pages (always ≥ 1)",
+            "description": "Total number of pages (always \u2265 1)",
             "example": 3
           }
         },
@@ -50322,11 +50139,11 @@
         "type": "object",
         "properties": {
           "kind": {
-            "type": "string",
             "enum": [
               "tag",
               "category"
             ],
+            "type": "string",
             "example": "tag"
           },
           "value": {
@@ -50405,11 +50222,11 @@
         "type": "object",
         "properties": {
           "kind": {
-            "type": "string",
             "enum": [
               "tag",
               "category"
             ],
+            "type": "string",
             "example": "tag"
           },
           "value": {
@@ -50498,6 +50315,7 @@
           },
           "conditions": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Optional conditions",
             "example": {
               "roles": [
@@ -50550,7 +50368,11 @@
             "example": "new-onboarding-flow"
           },
           "action": {
-            "type": "object",
+            "enum": [
+              "remove",
+              "upsert"
+            ],
+            "type": "string",
             "description": "Action performed: 'upsert' | 'remove'",
             "example": "upsert"
           },
@@ -50568,6 +50390,7 @@
           },
           "previousTargeting": {
             "type": "object",
+            "additionalProperties": true,
             "nullable": true,
             "description": "Targeting (rollout percentage, allow/deny lists) before this mutation; null if the flag did not exist",
             "example": {
@@ -50578,6 +50401,7 @@
           },
           "newTargeting": {
             "type": "object",
+            "additionalProperties": true,
             "nullable": true,
             "description": "Targeting (rollout percentage, allow/deny lists) after this mutation; null for removals",
             "example": {
@@ -50727,6 +50551,7 @@
           },
           "conditions": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Optional conditions (e.g. user roles, specific user IDs)",
             "example": {
               "roles": [
@@ -50753,74 +50578,6 @@
         "required": [
           "key",
           "enabled"
-        ]
-      },
-      "FeatureFlag": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "key": {
-            "type": "string"
-          },
-          "enabled": {
-            "type": "boolean"
-          },
-          "rolloutPercentage": {
-            "type": "number",
-            "nullable": true,
-            "description": "Percentage of principals (0-100) the flag targets, or null for no rollout.\n\nWhen set, this value alone determines the evaluation result — `enabled` is\nnot consulted — so a rollout can serve a fraction of users and later be\nwidened. 0 is a real value meaning \"serve nobody\", which makes it the\nsingle-field kill switch. Null leaves the flag on plain on/off."
-          },
-          "allowList": {
-            "nullable": true,
-            "description": "Principal IDs always granted the flag, regardless of the rollout percentage.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "denyList": {
-            "nullable": true,
-            "description": "Principal IDs always denied the flag; takes precedence over `allowList`.",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "sensitive": {
-            "type": "boolean",
-            "description": "Marks a flag whose change has outsized blast radius (payments, auth,\ncontract calls). Every write to a sensitive flag — including clearing this\nmarker — must carry an explicit confirmation, so a stray click in the\nadmin console cannot flip it."
-          },
-          "conditions": {
-            "type": "object",
-            "nullable": true
-          },
-          "changedBy": {
-            "type": "string",
-            "nullable": true
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "updatedAt": {
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "key",
-          "enabled",
-          "rolloutPercentage",
-          "allowList",
-          "denyList",
-          "sensitive",
-          "conditions",
-          "changedBy",
-          "createdAt",
-          "updatedAt"
         ]
       },
       "RoadmapItemDto": {
@@ -51082,7 +50839,12 @@
             "example": "a1b2c3d4..."
           },
           "status": {
-            "type": "object",
+            "enum": [
+              "SUCCESS",
+              "PENDING",
+              "FAILED"
+            ],
+            "type": "string",
             "description": "Status of the contribution on ledger",
             "example": "SUCCESS"
           },
@@ -51196,7 +50958,12 @@
             "type": "number"
           },
           "status": {
-            "type": "object"
+            "type": "string",
+            "enum": [
+              "success",
+              "failed",
+              "partial"
+            ]
           },
           "error": {
             "type": "string"
@@ -51322,7 +51089,10 @@
             "type": "string"
           },
           "byVault": {
-            "type": "object"
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
           }
         },
         "required": [
@@ -51365,7 +51135,8 @@
             "type": "number"
           },
           "rawPayload": {
-            "type": "object"
+            "type": "object",
+            "additionalProperties": true
           },
           "failureCount": {
             "type": "number"
@@ -51513,6 +51284,7 @@
           },
           "rawPayload": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Raw event payload as emitted by the Soroban contract (event data)",
             "example": {
               "from": "GBUQWP3BOUZX34ULNQG23RQ6F4BWFIREXOWJ2GY2FOLGABIDESX56JP2",
@@ -51558,13 +51330,13 @@
             "example": "transfer"
           },
           "status": {
-            "type": "string",
-            "description": "Current processing status of the event",
             "enum": [
               "PENDING",
               "PROCESSED",
               "FAILED"
             ],
+            "type": "string",
+            "description": "Current processing status of the event",
             "example": "PENDING"
           },
           "createdAt": {
@@ -51997,7 +51769,7 @@
           "summary": {
             "type": "string",
             "description": "Human-readable summary of the operation",
-            "example": "Replayed 150 events for contract CA... in ledgers 1000–2000"
+            "example": "Replayed 150 events for contract CA... in ledgers 1000\u20132000"
           }
         },
         "required": [
@@ -52021,7 +51793,6 @@
           },
           "githubHandle": {
             "type": "string",
-            "pattern": "GITHUB_HANDLE_PATTERN",
             "example": "octocat",
             "description": "GitHub username of the contributor"
           }
@@ -52060,7 +51831,6 @@
           },
           "githubHandle": {
             "type": "string",
-            "pattern": "GITHUB_HANDLE_PATTERN",
             "example": "octocat",
             "description": "GitHub username of the contributor"
           },
@@ -52362,6 +52132,7 @@
           },
           "metadata": {
             "type": "object",
+            "additionalProperties": true,
             "nullable": true
           }
         },
@@ -52858,6 +52629,7 @@
           },
           "contracts": {
             "type": "object",
+            "additionalProperties": true,
             "example": {
               "contributor_registry": {
                 "id": "CCOVDGHF3XQ5RAFY6DJ36G6CHQJF54QCOBZXCC3LBMKNEWQJLDGXQJSB"
@@ -52866,6 +52638,7 @@
           },
           "metadata": {
             "type": "object",
+            "additionalProperties": true,
             "nullable": true
           },
           "isActive": {
@@ -52942,6 +52715,7 @@
           },
           "contracts": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Contract deployment records keyed by contract name",
             "example": {
               "contributor_registry": {
@@ -52952,6 +52726,7 @@
           },
           "metadata": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Environment metadata (RPC URL, admin addresses, deployment notes)",
             "example": {
               "rpc_url": "https://soroban-testnet.stellar.org:443"
@@ -52983,10 +52758,12 @@
           },
           "contracts": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Contract deployment records"
           },
           "metadata": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Environment metadata"
           },
           "isActive": {
@@ -53000,7 +52777,7 @@
         "properties": {
           "label": {
             "type": "string",
-            "description": "Human-readable label for the bucket (e.g. \"< 1 day\", \"1–3 days\")."
+            "description": "Human-readable label for the bucket (e.g. \"< 1 day\", \"1\u20133 days\")."
           },
           "minHours": {
             "type": "number",
@@ -53123,6 +52900,7 @@
           },
           "seededData": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Summary of currently seeded data"
           }
         },
@@ -53173,6 +52951,7 @@
           },
           "details": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Details about seeded entities"
           }
         },
@@ -53204,15 +52983,23 @@
         "properties": {
           "runId": {
             "type": "string",
-            "description": "Run identifier — pass this to the teardown endpoint"
+            "description": "Run identifier \u2014 pass this to the teardown endpoint"
           },
           "kind": {
-            "type": "object",
+            "enum": [
+              "demo_seed",
+              "testnet_account"
+            ],
+            "type": "string",
             "description": "What produced the run",
             "example": "demo_seed"
           },
           "status": {
-            "type": "object",
+            "enum": [
+              "active",
+              "torn_down"
+            ],
+            "type": "string",
             "description": "Run status",
             "example": "active"
           },
@@ -53253,7 +53040,7 @@
           "dryRun": {
             "type": "boolean",
             "default": false,
-            "description": "When true, nothing is removed — the response lists exactly what a real teardown would delete. Defaults to false."
+            "description": "When true, nothing is removed \u2014 the response lists exactly what a real teardown would delete. Defaults to false."
           }
         }
       },
@@ -53280,7 +53067,12 @@
         "type": "object",
         "properties": {
           "type": {
-            "type": "object",
+            "enum": [
+              "testnet_account",
+              "demo_contributor",
+              "demo_grant_round"
+            ],
+            "type": "string",
             "description": "Resource type",
             "example": "demo_contributor"
           },
@@ -53295,14 +53087,14 @@
             "example": "Demo contributor demo-alice"
           },
           "action": {
-            "type": "string",
-            "description": "What happened, or would happen in a dry run",
             "enum": [
               "removed",
               "would_remove",
               "not_found",
               "skipped"
             ],
+            "type": "string",
+            "description": "What happened, or would happen in a dry run",
             "example": "removed"
           },
           "reason": {
@@ -53334,7 +53126,7 @@
           },
           "skipped": {
             "type": "number",
-            "description": "Resources the backend cannot remove — see per-resource reason"
+            "description": "Resources the backend cannot remove \u2014 see per-resource reason"
           }
         },
         "required": [
@@ -53438,6 +53230,7 @@
           },
           "metadata": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Additional metadata for profile or moderation UIs"
           }
         },
@@ -53476,7 +53269,7 @@
           },
           "totalPages": {
             "type": "number",
-            "description": "Total number of pages (always ≥ 1)",
+            "description": "Total number of pages (always \u2265 1)",
             "example": 3
           },
           "isSparseContributor": {
@@ -53615,6 +53408,7 @@
           },
           "progressDetails": {
             "type": "object",
+            "additionalProperties": true,
             "nullable": true
           },
           "errorMessage": {
@@ -53728,6 +53522,7 @@
           },
           "progressDetails": {
             "type": "object",
+            "additionalProperties": true,
             "nullable": true
           },
           "errorMessage": {
@@ -53973,7 +53768,7 @@
             "minLength": 1,
             "maxLength": 120,
             "description": "Human-readable name for this saved search",
-            "example": "Stellar DeFi grants – round 4"
+            "example": "Stellar DeFi grants \u2013 round 4"
           },
           "domain": {
             "enum": [
@@ -53987,12 +53782,12 @@
           },
           "filters": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Domain-specific filter parameters as a JSON object.  These mirror the query parameters accepted by the corresponding discovery endpoint (e.g. GET /grants/rounds, GET /search/projects, GET /news).",
             "example": {
               "status": "active",
               "keyword": "DeFi"
-            },
-            "additionalProperties": true
+            }
           },
           "isSubscribed": {
             "type": "boolean",
@@ -54085,7 +53880,7 @@
             "minLength": 1,
             "maxLength": 120,
             "description": "Human-readable name for this saved search",
-            "example": "Stellar DeFi grants – round 4"
+            "example": "Stellar DeFi grants \u2013 round 4"
           },
           "domain": {
             "enum": [
@@ -54099,12 +53894,12 @@
           },
           "filters": {
             "type": "object",
+            "additionalProperties": true,
             "description": "Domain-specific filter parameters as a JSON object.  These mirror the query parameters accepted by the corresponding discovery endpoint (e.g. GET /grants/rounds, GET /search/projects, GET /news).",
             "example": {
               "status": "active",
               "keyword": "DeFi"
-            },
-            "additionalProperties": true
+            }
           },
           "isSubscribed": {
             "type": "boolean",
@@ -54182,6 +53977,9 @@
           },
           "socialLinks": {
             "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
             "description": "Social media links"
           }
         },
@@ -54404,13 +54202,16 @@
             "maxLength": 120
           },
           "scopes": {
-            "type": "string",
-            "enum": [
-              "data:read",
-              "data:write",
-              "admin"
-            ],
-            "minItems": 1
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "data:read",
+                "data:write",
+                "admin"
+              ]
+            }
           },
           "expiresAt": {
             "type": "string"
@@ -54498,6 +54299,103 @@
         },
         "required": [
           "message"
+        ]
+      },
+      "ModelHealthSignalDto": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": [
+              "trustworthy",
+              "degraded",
+              "unavailable"
+            ],
+            "example": "trustworthy"
+          },
+          "detail": {
+            "type": "string",
+            "description": "Human-readable explanation of the signal state"
+          },
+          "value": {
+            "type": "object",
+            "description": "Structured context for the signal (feature names, age in seconds, ...)"
+          }
+        },
+        "required": [
+          "state",
+          "detail"
+        ]
+      },
+      "ModelHealthSnapshotDto": {
+        "type": "object",
+        "properties": {
+          "model_type": {
+            "type": "string",
+            "description": "Model type identifier, e.g. sentiment or price_predictor"
+          },
+          "live_version": {
+            "type": "string",
+            "nullable": true,
+            "description": "Currently promoted model version from the registry, or null when none is live",
+            "example": "v1.1"
+          },
+          "drift": {
+            "$ref": "#/components/schemas/ModelHealthSignalDto"
+          },
+          "calibration_age": {
+            "$ref": "#/components/schemas/ModelHealthSignalDto"
+          },
+          "data_freshness": {
+            "$ref": "#/components/schemas/ModelHealthSignalDto"
+          },
+          "overall": {
+            "type": "string",
+            "enum": [
+              "trustworthy",
+              "degraded",
+              "unavailable"
+            ],
+            "example": "trustworthy"
+          },
+          "checked_at": {
+            "type": "string",
+            "description": "ISO-8601 UTC time this model was assessed"
+          },
+          "transitioned_to_degraded": {
+            "type": "boolean",
+            "description": "True when this assessment moved the model into a non-trustworthy state since the last assessment",
+            "example": false
+          }
+        },
+        "required": [
+          "model_type",
+          "drift",
+          "calibration_age",
+          "data_freshness",
+          "overall",
+          "checked_at",
+          "transitioned_to_degraded"
+        ]
+      },
+      "ModelHealthResponseDto": {
+        "type": "object",
+        "properties": {
+          "checked_at": {
+            "type": "string",
+            "description": "ISO-8601 UTC time this report was generated"
+          },
+          "models": {
+            "description": "Per-model SLO health snapshots keyed by model type",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModelHealthSnapshotDto"
+            }
+          }
+        },
+        "required": [
+          "checked_at",
+          "models"
         ]
       }
     }
