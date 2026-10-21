@@ -13748,7 +13748,7 @@
         ],
         "summary": "Create a new matching round on-chain",
         "tags": [
-          "Admin \u2014 Matching Pool"
+          "Admin — Matching Pool"
         ]
       }
     },
@@ -13956,7 +13956,7 @@
         ],
         "summary": "Approve a project for a matching round",
         "tags": [
-          "Admin \u2014 Matching Pool"
+          "Admin — Matching Pool"
         ]
       }
     },
@@ -14719,7 +14719,7 @@
           {
             "name": "X-Webhook-Signature",
             "in": "header",
-            "description": "HMAC-SHA256 signature \u2014 format: sha256=<hex>",
+            "description": "HMAC-SHA256 signature — format: sha256=<hex>",
             "required": true,
             "schema": {
               "type": "string"
@@ -22138,7 +22138,7 @@
     },
     "/v1/health/smoke": {
       "get": {
-        "description": "Single endpoint that confirms the backend and its testnet dependencies are ready to serve. Verifies required environment variables are present, core dependencies (database, Redis, Horizon) respond, and every configured Soroban contract ID is reachable. Returns a machine-readable report: `status` is \"pass\", \"warn\" or \"fail\", `ready` is false only when something failed, and every check carries a stable `id` so CI can assert on individual results. Safe to expose publicly \u2014 environment variables are reported by name and presence only, contract IDs are redacted, and dependency errors are replaced with fixed messages so no connection detail can leak.",
+        "description": "Single endpoint that confirms the backend and its testnet dependencies are ready to serve. Verifies required environment variables are present, core dependencies (database, Redis, Horizon) respond, and every configured Soroban contract ID is reachable. Returns a machine-readable report: `status` is \"pass\", \"warn\" or \"fail\", `ready` is false only when something failed, and every check carries a stable `id` so CI can assert on individual results. Safe to expose publicly — environment variables are reported by name and presence only, contract IDs are redacted, and dependency errors are replaced with fixed messages so no connection detail can leak.",
         "operationId": "HealthController_getDeploymentSmoke[0]",
         "parameters": [],
         "responses": {
@@ -22190,7 +22190,7 @@
             }
           },
           "503": {
-            "description": "At least one check failed (status \"fail\") \u2014 the deployment is not ready.",
+            "description": "At least one check failed (status \"fail\") — the deployment is not ready.",
             "content": {
               "application/json": {
                 "schema": {
@@ -22216,7 +22216,7 @@
     },
     "/health/smoke": {
       "get": {
-        "description": "Single endpoint that confirms the backend and its testnet dependencies are ready to serve. Verifies required environment variables are present, core dependencies (database, Redis, Horizon) respond, and every configured Soroban contract ID is reachable. Returns a machine-readable report: `status` is \"pass\", \"warn\" or \"fail\", `ready` is false only when something failed, and every check carries a stable `id` so CI can assert on individual results. Safe to expose publicly \u2014 environment variables are reported by name and presence only, contract IDs are redacted, and dependency errors are replaced with fixed messages so no connection detail can leak.",
+        "description": "Single endpoint that confirms the backend and its testnet dependencies are ready to serve. Verifies required environment variables are present, core dependencies (database, Redis, Horizon) respond, and every configured Soroban contract ID is reachable. Returns a machine-readable report: `status` is \"pass\", \"warn\" or \"fail\", `ready` is false only when something failed, and every check carries a stable `id` so CI can assert on individual results. Safe to expose publicly — environment variables are reported by name and presence only, contract IDs are redacted, and dependency errors are replaced with fixed messages so no connection detail can leak.",
         "operationId": "HealthController_getDeploymentSmoke[1]",
         "parameters": [],
         "responses": {
@@ -22268,7 +22268,7 @@
             }
           },
           "503": {
-            "description": "At least one check failed (status \"fail\") \u2014 the deployment is not ready.",
+            "description": "At least one check failed (status \"fail\") — the deployment is not ready.",
             "content": {
               "application/json": {
                 "schema": {
@@ -22287,6 +22287,176 @@
           }
         },
         "summary": "Deployment smoke check for CI and Vercel",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/v1/health/models": {
+      "get": {
+        "description": "Reports the trustworthiness of every registered model (live version, drift state, calibration age and data freshness). Each model is classified trustworthy | degraded | unavailable so consumers can decide whether to surface a prediction. Transitions into a degraded state are alerted through the backend notification path by the data-processing service (#1647).",
+        "operationId": "HealthController_getModelHealth[0]",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Per-model SLO health report.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelHealthResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Returns when the data-processing service is unreachable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Returns per-model SLO health from the data-processing service",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/health/models": {
+      "get": {
+        "description": "Reports the trustworthiness of every registered model (live version, drift state, calibration age and data freshness). Each model is classified trustworthy | degraded | unavailable so consumers can decide whether to surface a prediction. Transitions into a degraded state are alerted through the backend notification path by the data-processing service (#1647).",
+        "operationId": "HealthController_getModelHealth[1]",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Per-model SLO health report.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelHealthResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Returns when the data-processing service is unreachable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "description": "Correlation id for this request",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Returns per-model SLO health from the data-processing service",
         "tags": [
           "health"
         ]
@@ -27470,7 +27640,7 @@
             }
           },
           "403": {
-            "description": "Forbidden \u2013 admin only",
+            "description": "Forbidden – admin only",
             "content": {
               "application/json": {
                 "schema": {
@@ -28378,7 +28548,7 @@
             "name": "pageSize",
             "required": false,
             "in": "query",
-            "description": "Items per page (1\u2013100, default 20)",
+            "description": "Items per page (1–100, default 20)",
             "schema": {
               "example": 20,
               "type": "number"
@@ -28925,7 +29095,7 @@
             "name": "pageSize",
             "required": false,
             "in": "query",
-            "description": "Items per page (1\u2013100, default 20)",
+            "description": "Items per page (1–100, default 20)",
             "schema": {
               "example": 20,
               "type": "number"
@@ -34740,7 +34910,7 @@
     },
     "/v1/contributor-registry/register-with-sig": {
       "post": {
-        "description": "The contributor signs a SorobanAuthorizationEntry off-chain (no XLM required). The server (relayer) builds the transaction, attaches the signed entry, and submits it \u2014 paying the network fees. Obtain the current nonce first via GET /contributor-registry/nonce/:address.",
+        "description": "The contributor signs a SorobanAuthorizationEntry off-chain (no XLM required). The server (relayer) builds the transaction, attaches the signed entry, and submits it — paying the network fees. Obtain the current nonce first via GET /contributor-registry/nonce/:address.",
         "operationId": "ContributorRegistryController_registerWithSig",
         "parameters": [
           {
@@ -35265,7 +35435,7 @@
     },
     "/v1/contributor-registry/nonce/{address}": {
       "get": {
-        "description": "Returns the current per-address nonce required when building the SorobanAuthorizationEntry for register_contributor_with_sig. Cached for 5 seconds only \u2014 always fetch immediately before signing.",
+        "description": "Returns the current per-address nonce required when building the SorobanAuthorizationEntry for register_contributor_with_sig. Cached for 5 seconds only — always fetch immediately before signing.",
         "operationId": "ContributorRegistryController_getNonce",
         "parameters": [
           {
@@ -38568,7 +38738,7 @@
             }
           },
           "403": {
-            "description": "Forbidden \u2013 reviewer or admin role required",
+            "description": "Forbidden – reviewer or admin role required",
             "content": {
               "application/json": {
                 "schema": {
@@ -38702,7 +38872,7 @@
     },
     "/v1/demo-bootstrap/seed": {
       "post": {
-        "description": "Seeds demo-friendly testnet scenarios for contributor review and MVP walkthroughs. Only available when STELLAR_NETWORK=testnet and BOOTSTRAP_DEMO_DATA_ENABLED=true. Safe to repeat \u2014 pass resetBeforeSeed=true (default) to clear previous state first.",
+        "description": "Seeds demo-friendly testnet scenarios for contributor review and MVP walkthroughs. Only available when STELLAR_NETWORK=testnet and BOOTSTRAP_DEMO_DATA_ENABLED=true. Safe to repeat — pass resetBeforeSeed=true (default) to clear previous state first.",
         "operationId": "DemoBootstrapController_seed",
         "parameters": [
           {
@@ -38764,7 +38934,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized \u2014 admin JWT required",
+            "description": "Unauthorized — admin JWT required",
             "content": {
               "application/json": {
                 "schema": {
@@ -38782,7 +38952,7 @@
             }
           },
           "403": {
-            "description": "Forbidden \u2014 admin role required",
+            "description": "Forbidden — admin role required",
             "content": {
               "application/json": {
                 "schema": {
@@ -38937,7 +39107,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized \u2014 admin JWT required",
+            "description": "Unauthorized — admin JWT required",
             "content": {
               "application/json": {
                 "schema": {
@@ -38955,7 +39125,7 @@
             }
           },
           "403": {
-            "description": "Forbidden \u2014 admin role required",
+            "description": "Forbidden — admin role required",
             "content": {
               "application/json": {
                 "schema": {
@@ -39076,7 +39246,7 @@
     },
     "/v1/demo-bootstrap/runs": {
       "get": {
-        "description": "Returns bootstrap runs newest-first with the identifier to pass to the teardown endpoint. Covers both demo seeds and Friendbot-funded testnet accounts. Resource identifiers are not included \u2014 fetch a teardown dry run to see exactly what a given run created.",
+        "description": "Returns bootstrap runs newest-first with the identifier to pass to the teardown endpoint. Covers both demo seeds and Friendbot-funded testnet accounts. Resource identifiers are not included — fetch a teardown dry run to see exactly what a given run created.",
         "operationId": "DemoBootstrapController_listRuns",
         "parameters": [
           {
@@ -39156,7 +39326,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized \u2014 admin JWT required",
+            "description": "Unauthorized — admin JWT required",
             "content": {
               "application/json": {
                 "schema": {
@@ -39174,7 +39344,7 @@
             }
           },
           "403": {
-            "description": "Forbidden \u2014 admin role required",
+            "description": "Forbidden — admin role required",
             "content": {
               "application/json": {
                 "schema": {
@@ -39241,7 +39411,7 @@
     },
     "/v1/demo-bootstrap/runs/{runId}/teardown": {
       "post": {
-        "description": "Removes the data created by a single bootstrap run, identified by its run id. Pass { \"dryRun\": true } to list what would be removed without changing anything. Refused with 403 unless the environment is explicitly marked as testnet (STELLAR_NETWORK=testnet) or development (NODE_ENV=development|test); never permitted in production. Safe to call repeatedly \u2014 a run that is already torn down reports so.",
+        "description": "Removes the data created by a single bootstrap run, identified by its run id. Pass { \"dryRun\": true } to list what would be removed without changing anything. Refused with 403 unless the environment is explicitly marked as testnet (STELLAR_NETWORK=testnet) or development (NODE_ENV=development|test); never permitted in production. Safe to call repeatedly — a run that is already torn down reports so.",
         "operationId": "DemoBootstrapController_teardownRun",
         "parameters": [
           {
@@ -39312,7 +39482,7 @@
             }
           },
           "401": {
-            "description": "Unauthorized \u2014 admin JWT required",
+            "description": "Unauthorized — admin JWT required",
             "content": {
               "application/json": {
                 "schema": {
@@ -39330,7 +39500,7 @@
             }
           },
           "403": {
-            "description": "Forbidden \u2014 admin role required, or the environment is not marked as testnet or development",
+            "description": "Forbidden — admin role required, or the environment is not marked as testnet or development",
             "content": {
               "application/json": {
                 "schema": {
@@ -44075,176 +44245,6 @@
           "service-api-keys"
         ]
       }
-    },
-    "/v1/health/models": {
-      "get": {
-        "description": "Reports the trustworthiness of every registered model (live version, drift state, calibration age and data freshness). Each model is classified trustworthy | degraded | unavailable so consumers can decide whether to surface a prediction. Transitions into a degraded state are alerted through the backend notification path by the data-processing service (#1647).",
-        "operationId": "HealthController_getModelHealth[0]",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Per-model SLO health report.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ModelHealthResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit exceeded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Returns when the data-processing service is unreachable.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Returns per-model SLO health from the data-processing service",
-        "tags": [
-          "health"
-        ]
-      }
-    },
-    "/health/models": {
-      "get": {
-        "description": "Reports the trustworthiness of every registered model (live version, drift state, calibration age and data freshness). Each model is classified trustworthy | degraded | unavailable so consumers can decide whether to surface a prediction. Transitions into a degraded state are alerted through the backend notification path by the data-processing service (#1647).",
-        "operationId": "HealthController_getModelHealth[1]",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "Per-model SLO health report.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ModelHealthResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "429": {
-            "description": "Rate limit exceeded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "Returns when the data-processing service is unreachable.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "description": "Correlation id for this request",
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Returns per-model SLO health from the data-processing service",
-        "tags": [
-          "health"
-        ]
-      }
     }
   },
   "info": {
@@ -47347,7 +47347,7 @@
             "type": "number",
             "minimum": 0,
             "maximum": 1,
-            "description": "Normalised severity score (0\u20131)",
+            "description": "Normalised severity score (0–1)",
             "example": 0.85
           },
           "current_value": {
@@ -48703,6 +48703,104 @@
           "session"
         ]
       },
+      "ModelHealthSignalDto": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "enum": [
+              "trustworthy",
+              "degraded",
+              "unavailable"
+            ],
+            "type": "string",
+            "example": "trustworthy"
+          },
+          "detail": {
+            "type": "string",
+            "description": "Human-readable explanation of the signal state"
+          },
+          "value": {
+            "type": "object",
+            "description": "Structured context for the signal (feature names, age in seconds, ...)"
+          }
+        },
+        "required": [
+          "state",
+          "detail"
+        ]
+      },
+      "ModelHealthSnapshotDto": {
+        "type": "object",
+        "properties": {
+          "model_type": {
+            "type": "string",
+            "description": "Model type identifier, e.g. sentiment or price_predictor"
+          },
+          "live_version": {
+            "type": "string",
+            "nullable": true,
+            "description": "Currently promoted model version from the registry, or null when none is live",
+            "example": "v1.1"
+          },
+          "drift": {
+            "$ref": "#/components/schemas/ModelHealthSignalDto"
+          },
+          "calibration_age": {
+            "$ref": "#/components/schemas/ModelHealthSignalDto"
+          },
+          "data_freshness": {
+            "$ref": "#/components/schemas/ModelHealthSignalDto"
+          },
+          "overall": {
+            "enum": [
+              "trustworthy",
+              "degraded",
+              "unavailable"
+            ],
+            "type": "string",
+            "example": "trustworthy"
+          },
+          "checked_at": {
+            "type": "string",
+            "description": "ISO-8601 UTC time this model was assessed"
+          },
+          "transitioned_to_degraded": {
+            "type": "boolean",
+            "description": "True when this assessment moved the model into a non-trustworthy state since the last assessment",
+            "example": false
+          }
+        },
+        "required": [
+          "model_type",
+          "drift",
+          "calibration_age",
+          "data_freshness",
+          "overall",
+          "checked_at",
+          "transitioned_to_degraded"
+        ]
+      },
+      "ModelHealthResponseDto": {
+        "type": "object",
+        "properties": {
+          "checked_at": {
+            "type": "string",
+            "description": "ISO-8601 UTC time this report was generated"
+          },
+          "models": {
+            "additionalProperties": true,
+            "description": "Per-model SLO health snapshots keyed by model type",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModelHealthSnapshotDto"
+            }
+          }
+        },
+        "required": [
+          "checked_at",
+          "models"
+        ]
+      },
       "RegistryConfigDto": {
         "type": "object",
         "properties": {
@@ -48805,7 +48903,7 @@
           },
           "quorumProgress": {
             "type": "number",
-            "description": "Percentage of quorum reached (0\u2013100)",
+            "description": "Percentage of quorum reached (0–100)",
             "example": 80
           }
         },
@@ -50076,7 +50174,7 @@
           },
           "quorumProgress": {
             "type": "number",
-            "description": "Percentage of quorum reached (0\u2013100)",
+            "description": "Percentage of quorum reached (0–100)",
             "example": 0
           },
           "score": {
@@ -50123,7 +50221,7 @@
           },
           "totalPages": {
             "type": "number",
-            "description": "Total number of pages (always \u2265 1)",
+            "description": "Total number of pages (always ≥ 1)",
             "example": 3
           }
         },
@@ -51769,7 +51867,7 @@
           "summary": {
             "type": "string",
             "description": "Human-readable summary of the operation",
-            "example": "Replayed 150 events for contract CA... in ledgers 1000\u20132000"
+            "example": "Replayed 150 events for contract CA... in ledgers 1000–2000"
           }
         },
         "required": [
@@ -52777,7 +52875,7 @@
         "properties": {
           "label": {
             "type": "string",
-            "description": "Human-readable label for the bucket (e.g. \"< 1 day\", \"1\u20133 days\")."
+            "description": "Human-readable label for the bucket (e.g. \"< 1 day\", \"1–3 days\")."
           },
           "minHours": {
             "type": "number",
@@ -52983,7 +53081,7 @@
         "properties": {
           "runId": {
             "type": "string",
-            "description": "Run identifier \u2014 pass this to the teardown endpoint"
+            "description": "Run identifier — pass this to the teardown endpoint"
           },
           "kind": {
             "enum": [
@@ -53040,7 +53138,7 @@
           "dryRun": {
             "type": "boolean",
             "default": false,
-            "description": "When true, nothing is removed \u2014 the response lists exactly what a real teardown would delete. Defaults to false."
+            "description": "When true, nothing is removed — the response lists exactly what a real teardown would delete. Defaults to false."
           }
         }
       },
@@ -53126,7 +53224,7 @@
           },
           "skipped": {
             "type": "number",
-            "description": "Resources the backend cannot remove \u2014 see per-resource reason"
+            "description": "Resources the backend cannot remove — see per-resource reason"
           }
         },
         "required": [
@@ -53269,7 +53367,7 @@
           },
           "totalPages": {
             "type": "number",
-            "description": "Total number of pages (always \u2265 1)",
+            "description": "Total number of pages (always ≥ 1)",
             "example": 3
           },
           "isSparseContributor": {
@@ -53768,7 +53866,7 @@
             "minLength": 1,
             "maxLength": 120,
             "description": "Human-readable name for this saved search",
-            "example": "Stellar DeFi grants \u2013 round 4"
+            "example": "Stellar DeFi grants – round 4"
           },
           "domain": {
             "enum": [
@@ -53880,7 +53978,7 @@
             "minLength": 1,
             "maxLength": 120,
             "description": "Human-readable name for this saved search",
-            "example": "Stellar DeFi grants \u2013 round 4"
+            "example": "Stellar DeFi grants – round 4"
           },
           "domain": {
             "enum": [
@@ -54299,103 +54397,6 @@
         },
         "required": [
           "message"
-        ]
-      },
-      "ModelHealthSignalDto": {
-        "type": "object",
-        "properties": {
-          "state": {
-            "type": "string",
-            "enum": [
-              "trustworthy",
-              "degraded",
-              "unavailable"
-            ],
-            "example": "trustworthy"
-          },
-          "detail": {
-            "type": "string",
-            "description": "Human-readable explanation of the signal state"
-          },
-          "value": {
-            "type": "object",
-            "description": "Structured context for the signal (feature names, age in seconds, ...)"
-          }
-        },
-        "required": [
-          "state",
-          "detail"
-        ]
-      },
-      "ModelHealthSnapshotDto": {
-        "type": "object",
-        "properties": {
-          "model_type": {
-            "type": "string",
-            "description": "Model type identifier, e.g. sentiment or price_predictor"
-          },
-          "live_version": {
-            "type": "string",
-            "nullable": true,
-            "description": "Currently promoted model version from the registry, or null when none is live",
-            "example": "v1.1"
-          },
-          "drift": {
-            "$ref": "#/components/schemas/ModelHealthSignalDto"
-          },
-          "calibration_age": {
-            "$ref": "#/components/schemas/ModelHealthSignalDto"
-          },
-          "data_freshness": {
-            "$ref": "#/components/schemas/ModelHealthSignalDto"
-          },
-          "overall": {
-            "type": "string",
-            "enum": [
-              "trustworthy",
-              "degraded",
-              "unavailable"
-            ],
-            "example": "trustworthy"
-          },
-          "checked_at": {
-            "type": "string",
-            "description": "ISO-8601 UTC time this model was assessed"
-          },
-          "transitioned_to_degraded": {
-            "type": "boolean",
-            "description": "True when this assessment moved the model into a non-trustworthy state since the last assessment",
-            "example": false
-          }
-        },
-        "required": [
-          "model_type",
-          "drift",
-          "calibration_age",
-          "data_freshness",
-          "overall",
-          "checked_at",
-          "transitioned_to_degraded"
-        ]
-      },
-      "ModelHealthResponseDto": {
-        "type": "object",
-        "properties": {
-          "checked_at": {
-            "type": "string",
-            "description": "ISO-8601 UTC time this report was generated"
-          },
-          "models": {
-            "description": "Per-model SLO health snapshots keyed by model type",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ModelHealthSnapshotDto"
-            }
-          }
-        },
-        "required": [
-          "checked_at",
-          "models"
         ]
       }
     }
